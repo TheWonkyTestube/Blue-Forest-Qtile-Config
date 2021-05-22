@@ -1,0 +1,173 @@
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+}
+
+//Global Styles
+window {
+  background-color: rgb(0,0,0,0);
+  color: #40c4c6;
+  font-family: Cantarell;
+}
+
+
+//Left Bar Formatting
+.chev1{
+  font-size: 37px;
+}
+.rofiButton{
+  font-size: 25px;
+  padding: 0px 0px 0px 0px;
+  background-color: #40c4c6;
+  color: #ffffff;
+}
+.rofiButton:hover{
+  color: #9de1e2;
+}
+.chev2{
+  font-size: 37px;
+  background-color:#01112a;
+}
+
+
+
+
+.workspaces{
+  font-size: 22px;
+  background-color:#01112a;
+  padding-left: 5px;
+}
+.workspaces :hover{
+  color: #2c6e84;
+}
+.workspaces button{
+  padding: 0px 15px;
+}
+.chev3{
+  padding-right: 0px;
+  color:#01112a;
+  font-size: 37px;
+  background-color:rgb(0,0,0,0);
+}
+
+
+
+
+
+
+
+
+
+
+
+//Right Bar Formatting
+//First Box
+.chev4{
+  color:#01112a;
+  font-size: 37px;
+  background-color:rgb(0,0,0,0)
+}
+.CPUbox{
+  background-color: #01112a;
+  font-size: 22px;
+  padding: 0px 10px
+}
+.RAMbox{
+  background-color: #01112a;
+  font-size: 22px;
+  padding: 0px 10px
+}
+
+
+
+
+//Audio Buttons
+.chev5{
+  color:#032863;
+  font-size: 37px;
+  background-color:#01112a;
+}
+
+.audioButton{
+  font-size: 26px;
+  padding: 0px 10px 0px 10px;
+  background-color: #032863;
+}
+.audioButton:hover{
+  padding: 0px 10px 0px 10px;
+  color: #2c6e84;
+}
+
+
+
+
+//Volume SLider
+.chev6{
+  color:#043c95;
+  font-size: 37px;
+  background-color:#032863;
+}
+
+.vol-slider{
+  padding:0px 1px 0px 0px;
+  background-color: #043c95;
+  color: #40c4c6;
+}
+.volIcon{
+  font-size:20px;
+  padding-right:5px;
+}
+.volVal{
+  padding: 0px 3px;
+  min-width:53px;
+  font-size: 15px;
+}
+.vol-slider scale trough highlight {
+  background-color: #40c4c6;
+  color: #40c4c6;
+  border-radius: 3px;
+}
+.vol-slider scale trough {
+  background-color: #6c73ac;
+  border-radius: 3px;
+  min-height: 10px;
+  min-width: 75px;
+  margin-left: 3px;
+}
+
+
+
+
+//Clock
+.chev7{
+  color:#054fc7;
+  font-size: 37px;
+  background-color:#043c95;
+}
+.time{
+  padding-right: 10px;
+  font-size: 15px;
+  background-color: #054fc7;
+}
+
+
+
+//Off Button
+.chev8{
+  padding-right: 0px;
+  color:#1f73f9;
+  font-size: 37px;
+  background-color:#054fc7;
+}
+.offButton{
+  background-color: #1f73f9;
+  font-size: 26px;
+}
+.offButton:hover{
+  color: #a9483d;
+}
+.chev9{
+  padding-right: 0px;
+  color:#1f73f9;
+  font-size: 37px;
+  background-color:rgb(0,0,0,0);
+}
