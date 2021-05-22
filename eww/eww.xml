@@ -1,0 +1,180 @@
+<eww>
+  <definitions>
+
+    <def name="left-bar">
+      <box orientation="h" hexpand="true" space-evenly="false">
+
+        <box class="chev1"></box>
+        <button class="rofiButton" active="true" onclick="~/.config/eww/scripts/launchRofi.sh">    </button>
+
+        <box class="chev2"></box>
+        <workspaces/>
+        <box class="chev3"></box>
+
+      </box>
+    </def>
+
+    <def name="right-bar">
+      <box class="rightstuff" orientation="h" spacing="0" space-evenly="false" halign="end">
+          <box class="chev4"></box>
+          <box class="CPUbox" style="color: rgb({{cpu-red}},{{cpu-green}},0)"></box>
+          <box class="RAMbox" style="color: rgb({{ram-red}},{{ram-green}},0)"></box>
+
+          <box class="chev5"></box>
+          <button  class="audioButton" onclick="pacmd set-default-sink 0"></button>
+          <button  class="audioButton" onclick="pacmd set-default-sink 1"></button>
+
+          <box class="chev6"></box>
+          <slider-vol/>
+
+          <box class="chev7"></box>
+          <time/>
+
+          <box class="chev8"></box>
+          <button class="offButton" onclick="shutdown now">    </button>
+          <box class="chev9"></box>
+      </box>
+    </def>
+
+
+
+
+
+
+
+    <def name="workspaces">
+        <box orientation="h" class="workspaces" spacing="0" halign="start"> <!-- Your workspaces.-->
+          <button style="background-color: {{bg-col1}}" onclick="wmctrl -s 0">  </button>
+          <button style="background-color: {{bg-col2}}" onclick="wmctrl -s 1">  </button>
+          <button style="background-color: {{bg-col3}}" onclick="wmctrl -s 2">  </button>
+          <button style="background-color: {{bg-col4}}" onclick="wmctrl -s 3">  </button>
+          <button style="background-color: {{bg-col5}}" onclick="wmctrl -s 4"> 爵 </button>
+          <button style="background-color: {{bg-col6}}" onclick="wmctrl -s 5">  </button>
+          <button style="background-color: {{bg-col7}}" onclick="wmctrl -s 6">  </button>
+          <button style="background-color: {{bg-col8}}" onclick="wmctrl -s 7">  </button>
+          <button style="background-color: {{bg-col9}}" onclick="wmctrl -s 8">  </button>
+        </box>
+    </def>
+
+    <def name="slider-vol">
+      <box orientation="h" class="vol-slider" space-evenly="false">
+
+        <box class="volIcon"></box>
+        <scale orientation="h" min="0" max="101" draw-value="false" value="{{volume}}" onchange="amixer -D pulse sset Master {}%"/>
+        <box class="volVal">{{volume}}%</box>
+
+      </box>
+    </def>
+
+    <def name="time">
+      <!--Time-->
+      <box class="time">{{hour}}:{{min}}   {{name_day}} {{number_day}}-{{month}}-{{year_full}}</box>
+    </def>
+  </definitions>
+
+
+
+
+
+
+
+  <variables>
+
+	  <!-- Music vars -->
+    <!-- These are your variables. Like they say, they run a script, and then output that to the variable. In
+    the following var, we get music info from playerctl. -->
+
+    <script-var name="music" interval="5s">playerctl metadata --format '{{ artist }} - {{ title }}'</script-var>
+
+
+    <!--Volume var-->
+    <!-- If your vars get too complex to write down here, you can use an external script and paste it's path here as well, as shown below.
+     -->
+
+    <!--Date vars-->
+    <script-var name="number_day" interval="1h">date "+%d"</script-var>
+    <script-var name="name_day" interval="1h">date "+%a"</script-var>
+    <script-var name="month" interval="1h">date "+%m"</script-var>
+    <script-var name="min" interval="1s">date "+%M"</script-var>
+    <script-var name="hour" interval="1m">date "+%H"</script-var>
+    <script-var name="year_full" interval="672h">date "+%Y"</script-var>
+
+    <!--RAM var-->
+    <script-var name="ram-green" interval="3s">
+      usage=$(printf "%.0f\n" $(free -m | grep Mem | awk '{print ($3/$2)}'))
+      green=$(echo $usage | awk '{out=(255-(255*$1))} END {print out}')
+      printf -v greenInt %.0f "$green"
+      echo  $greenInt
+    </script-var>
+
+    <script-var name="ram-red" interval="3s">
+      usage=$(printf "%.0f\n" $(free -m | grep Mem | awk '{print ($3/$2)}'))
+      red=$(echo $usage | awk '{out=(255*$1)} END {print out}')
+      printf -v redInt %.0f "$red"
+      echo  $redInt
+    </script-var>
+
+    <script-var name="cpu-green" interval="3s">
+      usage=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*1/($2+$4+$5)} END {print usage}')
+      green=$(echo $usage | awk '{out=(255-(255*$1))} END {print out}')
+      printf -v greenInt %.0f "$green"
+      echo  $greenInt
+    </script-var>
+
+    <script-var name="cpu-red" interval="3s">
+      usage=$(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*1/($2+$4+$5)} END {print usage}')
+      red=$(echo $usage | awk '{out=(255*$1)} END {print out}')
+      printf -v redInt %.0f "$red"
+      echo  $redInt
+    </script-var>
+
+    <script-var name="volume" interval="100ms">
+      amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ percent=$2 } {print percent}' | tr -d '%'
+    </script-var>
+
+    <!--RAM var-->
+    <script-var name="ram-used" interval="100ms">printf "%.0f\n" $(free -m | grep Mem | awk '{print ($3/$2)*100}')</script-var>
+
+    <script-var name="bg-col1" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace1Background.sh</script-var>
+    <script-var name="bg-col2" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace2Background.sh</script-var>
+    <script-var name="bg-col3" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace3Background.sh</script-var>
+    <script-var name="bg-col4" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace4Background.sh</script-var>
+    <script-var name="bg-col5" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace5Background.sh</script-var>
+    <script-var name="bg-col6" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace6Background.sh</script-var>
+    <script-var name="bg-col7" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace7Background.sh</script-var>
+    <script-var name="bg-col8" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace8Background.sh</script-var>
+    <script-var name="bg-col9" interval="100ms">/home/will/.config/eww/scripts/workspaceBackgroundScripts/workSpace9Background.sh</script-var>
+    <!-- Workspace Colours -->
+    <var name="banana">I like bananas.</var>
+
+  </variables>
+
+
+
+
+
+
+
+
+
+  <windows>
+    <!-- First Window: Workspaces, Rofi Button -->
+    <window name="barLeft" screen="0">
+      <geometry x="8px" y="4px" width="399px" height="40px"/> <!--Specifies geometry-->
+      <reserve side="top" distance="0%" layer="top"/>
+      <widget>
+        <left-bar/> <!--This is the def we created earlier-->
+      </widget>
+    </window>
+
+    <!-- Second Window: CPU, RAM icons, Volume and Audio Options, Time and Date, Power Options  -->
+    <window name="barRight" screen="0">
+      <geometry x="1320px" y="4px" width="550px" height="40px"/> <!--Specifies geometry-->
+      <reserve side="top" distance="0%" layer="top"/>
+      <widget>
+        <right-bar/>
+      </widget>
+    </window>
+
+  </windows>
+</eww>
